@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include <stdio.h>
+#include <stdlib.h>
+#define DllExport __declspec(dllexport)
+
+	//Gerardo Daniel Rodriguez
+	//A01036056
+	//Large string practice
+
+
+	//Function responsible of resizing the array for the string
+	//
+	//Params:
+	//	-resultString: string handled
+	//	-size: the current size
+	//	-newSize: the new size that should be allocated
+	//Return:
+	//	-tempString: the new string with the new memory allocation
+	DllExport char* resize(char *resultString, int size, int newSize)
+	{
+		char* tempString = (char *)malloc(newSize);
+		memcpy(tempString, resultString, size);
+		free(resultString);
+		return tempString;
+	}
+
+	//Function responsible of receving large input from keyboard until character '`' is reached
+	//
+	//Params:
+
+	//Return:
+	//	-resultString: the final string
+	DllExport char* infiniteString()
+	{
+		char *resultString;
+		resultString = (char *)malloc(50);
+		char c;
+		int count = 0;
+		int size = 10;
+
+		while ((c = getchar()) != '`') {
+
+			if (count == size) {
+				resultString = resize(resultString, size, size * 2);
+				size *= 2;
+			}
+			resultString[count++] = c;
+		}
+		if (count == size) {
+			resultString = resize(resultString, size, size + 1);
+		}
+
+		resultString[count] = 0;
+		return resultString;
+	}
+
